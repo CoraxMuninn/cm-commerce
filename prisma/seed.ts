@@ -1,18 +1,19 @@
-import "dotenv/config";
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/prisma/client";
+import { pool, prisma } from "@/lib/prisma";
 import sampleData from "@/db/sample-data";
 
-const connectionString = `${process.env.DATABASE_URL}`;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
 async function main() {
-  const outputProduct = await prisma.product.createMany({
+  await prisma.product.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.verificationToken.deleteMany();
+
+  await prisma.product.createMany({
     data: sampleData.products,
   });
-  console.log({ outputProduct });
+  await prisma.user.createMany({
+    data: sampleData.users,
+  });
 }
 main()
   .then(async () => {

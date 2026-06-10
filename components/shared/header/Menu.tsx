@@ -1,4 +1,5 @@
 import ModeToggle from "@/components/shared/header/ModeToggle";
+import UserButton from "@/components/shared/header/UserButton";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,12 +21,7 @@ export default function Menu() {
             Cart
           </Link>
         </Button>
-        <Button asChild variant="default">
-          <Link href="/sign-in">
-            <UserIcon />
-            Sign In
-          </Link>
-        </Button>
+        <UserButton />
       </nav>
       <nav className="md:hidden">
         <Sheet>
@@ -40,12 +36,7 @@ export default function Menu() {
                 <ShoppingCart /> Cart
               </Link>
             </Button>
-            <Button asChild variant="ghost">
-              <Link href="/sign-in">
-                <UserIcon />
-                Sign In
-              </Link>
-            </Button>
+            <UserButton />
           </SheetContent>
         </Sheet>
       </nav>

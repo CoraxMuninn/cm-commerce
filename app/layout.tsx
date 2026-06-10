@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(SERVER_URL),
 
   title: {
+    template: `%s | CM Store`,
     default: APP_NAME,
-    template: "%s | CM Store",
   },
 
   description: APP_DESCRIPTION,
