@@ -1,10 +1,9 @@
+import AddToCart from "@/components/shared/products/AddToCart";
 import ProductImages from "@/components/shared/products/ProductImages";
 import ProductPrice from "@/components/shared/products/ProductPrice";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getProductBySlug } from "@/lib/actions/product.actions";
-import { Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 
 export default async function ProductDetailsPage(props: {
@@ -60,9 +59,16 @@ export default async function ProductDetailsPage(props: {
               </div>
               {product.stock > 0 && (
                 <div className="flex-center">
-                  <Button className="capitalize w-full">
-                    <Plus /> add to cart
-                  </Button>
+                  <AddToCart
+                    items={{
+                      productId: product.id,
+                      name: product.name,
+                      slug: product.slug,
+                      image: product.images![0],
+                      gty: 1,
+                      price: String(product.price),
+                    }}
+                  />
                 </div>
               )}
             </CardContent>
