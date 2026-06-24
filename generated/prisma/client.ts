@@ -71,3 +71,18 @@ export type VerificationToken = Prisma.VerificationTokenModel
  * 
  */
 export type Cart = Prisma.CartModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderItem
+ * 
+ */
+export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel

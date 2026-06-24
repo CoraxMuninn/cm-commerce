@@ -25,7 +25,7 @@ export default function CredentialsSignInForm() {
     const { pending } = useFormStatus();
 
     return (
-      <Button disabled={pending} className="w-full">
+      <Button disabled={pending} className="w-full cursor-pointer">
         {pending ? "Signing in..." : "Sign In"}
       </Button>
     );
@@ -33,7 +33,7 @@ export default function CredentialsSignInForm() {
 
   return (
     <form action={action}>
-      <input className="hidden" name="callbackUrl" value={callbackUrl} />
+      <input className="hidden" name="callbackUrl" defaultValue={callbackUrl} />
       <div className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
