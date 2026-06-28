@@ -57,22 +57,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig.callbacks,
 
     async jwt({ token, user, trigger, session }: any) {
-      // assign user field to token
+      // Assign user fields to token
       if (user) {
         token.id = user.id;
         token.role = user.role;
 
+        // If user has no name then use the email
         if (user.name === "NO_NAME") {
           token.name = user.email!.split("@")[0];
 
+          // Update database to reflect the token name
           await prisma.user.update({
-            where: {
-              id: user.id,
-            },
-
-            data: {
-              name: token.name,
-            },
+            where: { id: user.id },
+            data: { name: token.name },
           });
         }
 
@@ -82,18 +79,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           if (sessionCartId) {
             const sessionCart = await prisma.cart.findFirst({
-              where: { sessionCartId: sessionCartId },
+              where: { sessionCartId },
             });
 
             if (sessionCart) {
-              // delete current user cart
+              // Delete current user cart
               await prisma.cart.deleteMany({
-                where: {
-                  userId: user.id,
-                },
+                where: { userId: user.id },
               });
 
-              // assign new cart
+              // Assign new cart
               await prisma.cart.update({
                 where: { id: sessionCart.id },
                 data: { userId: user.id },
@@ -103,7 +98,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
       }
 
-      // handle session update
+      // Handle session updates
       if (session?.user.name && trigger === "update") {
         token.name = session.user.name;
       }
