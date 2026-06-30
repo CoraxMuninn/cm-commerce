@@ -1,4 +1,5 @@
 import ProductPrice from "@/components/shared/products/ProductPrice";
+import Rating from "@/components/shared/products/Rating";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Product } from "@/types/index";
 import Image from "next/image";
@@ -26,7 +27,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <h2 className="text-sm font-medium truncate">{product.name}</h2>
           </Link>
           <div className="flex-between gap-4 pt-4">
-            <p>{product.rating} Stars</p>
+            <Rating value={+product.rating} />
             {product.stock > 0 ? (
               <ProductPrice value={+product.price} className="text-red-400" />
             ) : (

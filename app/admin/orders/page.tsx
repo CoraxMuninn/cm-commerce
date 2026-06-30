@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   title: "Admin Orders",
 };
 
-const AdminOrdersPage = async (props: {
+export default async function AdminOrdersPage(props: {
   searchParams: Promise<{ page: string; query: string }>;
-}) => {
+}) {
   const { page = "1", query: searchText } = await props.searchParams;
 
   await requireAdmin();
@@ -99,6 +99,4 @@ const AdminOrdersPage = async (props: {
       </div>
     </div>
   );
-};
-
-export default AdminOrdersPage;
+}

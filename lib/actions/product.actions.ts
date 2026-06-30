@@ -112,8 +112,15 @@ export async function getAllProducts({
 
   const dataCount = await prisma.product.count();
 
+  // Decimal to string
+  const serializedData = data.map((product) => ({
+    ...product,
+    price: product.price.toString(),
+    rating: product.rating.toString(),
+  }));
+
   return {
-    data,
+    data: serializedData,
     totalPages: Math.ceil(dataCount / limit),
   };
 }
@@ -183,23 +190,23 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   }
 }
 
-// // Get all categories
-// export async function getAllCategories() {
-//   const data = await prisma.product.groupBy({
-//     by: ["category"],
-//     _count: true,
-//   });
+// Get all categories
+export async function getAllCategories() {
+  const data = await prisma.product.groupBy({
+    by: ["category"],
+    _count: true,
+  });
 
-//   return data;
-// }
+  return data;
+}
 
-// // Get featured products
-// export async function getFeaturedProducts() {
-//   const data = await prisma.product.findMany({
-//     where: { isFeatured: true },
-//     orderBy: { createdAt: "desc" },
-//     take: 4,
-//   });
+// Get featured products
+export async function getFeaturedProducts() {
+  const data = await prisma.product.findMany({
+    where: { isFeatured: true },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
-//   return convertToPlainObject(data);
-// }
+  return convertToPlainObject(data);
+}

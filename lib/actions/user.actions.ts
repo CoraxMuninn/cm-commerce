@@ -3,6 +3,7 @@
 import { ShippingAddress } from "./../../types/index";
 
 import { auth, signIn, signOut } from "@/auth";
+import { Prisma } from "@/generated/prisma/client";
 import { PAGE_SIZE } from "@/lib/constants/index";
 import { prisma } from "@/lib/prisma";
 import { formatError } from "@/lib/utils";
@@ -190,80 +191,80 @@ export async function updateProfile(user: { name: string; email: string }) {
   }
 }
 
-// // Get all the users
-// export async function getAllUsers({
-//   limit = PAGE_SIZE,
-//   page,
-//   query,
-// }: {
-//   limit?: number;
-//   page: number;
-//   query: string;
-// }) {
-//   const queryFilter: Prisma.UserWhereInput =
-//     query && query !== "all"
-//       ? {
-//           name: {
-//             contains: query,
-//             mode: "insensitive",
-//           } as Prisma.StringFilter,
-//         }
-//       : {};
+// Get all the users
+export async function getAllUsers({
+  limit = PAGE_SIZE,
+  page,
+  query,
+}: {
+  limit?: number;
+  page: number;
+  query: string;
+}) {
+  const queryFilter: Prisma.UserWhereInput =
+    query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          } as Prisma.StringFilter,
+        }
+      : {};
 
-//   const data = await prisma.user.findMany({
-//     where: {
-//       ...queryFilter,
-//     },
-//     orderBy: { createdAt: "desc" },
-//     take: limit,
-//     skip: (page - 1) * limit,
-//   });
+  const data = await prisma.user.findMany({
+    where: {
+      ...queryFilter,
+    },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
 
-//   const dataCount = await prisma.user.count();
+  const dataCount = await prisma.user.count();
 
-//   return {
-//     data,
-//     totalPages: Math.ceil(dataCount / limit),
-//   };
-// }
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
+}
 
-// // Delete a user
-// export async function deleteUser(id: string) {
-//   try {
-//     await prisma.user.delete({ where: { id } });
+// Delete a user
+export async function deleteUser(id: string) {
+  try {
+    await prisma.user.delete({ where: { id } });
 
-//     revalidatePath("/admin/users");
+    revalidatePath("/admin/users");
 
-//     return {
-//       success: true,
-//       message: "User deleted successfully",
-//     };
-//   } catch (error) {
-//     return {
-//       success: false,
-//       message: formatError(error),
-//     };
-//   }
-// }
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
 
-// // Update a user
-// export async function updateUser(user: z.infer<typeof updateUserSchema>) {
-//   try {
-//     await prisma.user.update({
-//       where: { id: user.id },
-//       data: {
-//         name: user.name,
-//         role: user.role,
-//       },
-//     });
+// Update a user
+export async function updateUser(user: z.infer<typeof updateUserSchema>) {
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: user.name,
+        role: user.role,
+      },
+    });
 
-//     revalidatePath("/admin/users");
+    revalidatePath("/admin/users");
 
-//     return {
-//       success: true,
-//       message: "User updated successfully",
-//     };
-//   } catch (error) {
-//     return { success: false, message: formatError(error) };
-//   }
-// }
+    return {
+      success: true,
+      message: "User updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
