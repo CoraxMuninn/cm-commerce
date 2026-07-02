@@ -25,7 +25,7 @@ PurchaseReceiptEmail.PreviewProps = {
       name: "John Doe",
       email: "test@test.com",
     },
-    paymentMethod: "Stripe",
+    paymentMethod: "PayPal",
     shippingAddress: {
       fullname: "John Doe",
       streetAddress: "123 Main st",
